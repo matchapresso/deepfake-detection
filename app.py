@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 
 # SETUP PATH & LOAD MODEL
 # Gunakan path lokal (asumsi file model dan CSV ada di folder yang sama dengan app.py)
-MODEL_PATH = 'xception_best_model.h5'
+MODEL_PATH = 'xception_finetuned_model.h5'
 LOG_PATH = 'xception_training_log.csv'
 
 CLASS_NAMES = ['Fake', 'Real']
@@ -72,14 +72,15 @@ with col2:
             prediction_prob = model.predict(img_tensor).flatten()[0]
             
             # Tentukan Hasil Kelas (Thresh 0.5)
-            if prediction_prob > 0.5:
-                result_label = "REAL (Asli)"
-                confidence = prediction_prob * 100
-                st.success(f"### Hasil: **{result_label}**")
-            else:
+            # Karena 1 = Fake, maka probabilitas di atas threshold artinya FAKE
+            if prediction_prob > 0.35:
                 result_label = "FAKE (Deepfake/Manipulasi)"
-                confidence = (1 - prediction_prob) * 100
+                confidence = prediction_prob * 100
                 st.error(f"### Hasil: **{result_label}**")
+            else:
+                result_label = "REAL (Asli)"
+                confidence = (1 - prediction_prob) * 100
+                st.success(f"### Hasil: **{result_label}**")
                 
             # Tampilkan Progress Bar Confidence Score
             st.write("**Confidence Score:**")
