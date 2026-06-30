@@ -37,9 +37,11 @@ def process_and_crop_face(image, detector):
     
     if not results:
         return None # kalau ga ada wajah yang terdeteksi
-        
+
+    largest_face =  max(results, key=lambda face: face['box'][2] * face['box'][3])
+
     # ambil wajah dengan confidence tertinggi (biasanya di index 0)
-    x, y, w, h = results[0]['box']
+    x, y, w, h = largest_face['box']
     
     # add margin 20% agar rahang dan leher ikut terpotong
     margin_x = int(w * 0.2)
