@@ -118,7 +118,7 @@ with col2:
                 prediction_prob = model.predict(img_tensor).flatten()[0]
                 
                 # tentukan hasil kelas (1 = Fake, 0 = Real)
-                threshold = 0.35 # bisa dinaikkan/diturunkan tergantung kepekaan model nanti
+                threshold = 0.2 # bisa dinaikkan/diturunkan tergantung kepekaan model nanti
                 
                 if prediction_prob > threshold:
                     result_label = "FAKE (Deepfake / Manipulasi)"
